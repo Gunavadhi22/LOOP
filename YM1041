@@ -1,0 +1,53 @@
+import java.util.Scanner;
+
+public class Solution {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        long N = sc.nextLong();
+        sc.close();
+
+        long pages = 0L;
+        boolean possible = false;
+
+        for (int len = 1; len <= 18; len++) {
+            long blockCount = 9L * pow10(len - 1);
+            if (blockCount < 0) blockCount = Long.MAX_VALUE / len;
+
+            long blockDigits;
+            if (blockCount > Long.MAX_VALUE / len) {
+                blockDigits = Long.MAX_VALUE;
+            } else {
+                blockDigits = blockCount * len;
+            }
+
+            if (N >= blockDigits) {
+                N -= blockDigits;
+                pages += blockCount;
+                if (N == 0) {
+                    possible = true;
+                    break;
+                }
+            } else {
+                long extraPages = N / len;
+                if (N % len == 0) {
+                    pages += extraPages;
+                    N = 0;
+                    possible = true;
+                }
+                break;
+            }
+        }
+
+        if (possible && N == 0) {
+            System.out.println(pages);
+        } else {
+            System.out.println("Impossible!");
+        }
+    }
+
+    private static long pow10(int p) {
+        long r = 1;
+        for (int i = 0; i < p; i++) r *= 10L;
+        return r;
+    }
+}
