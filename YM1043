@@ -1,0 +1,36 @@
+import java.util.*;
+public class Solution {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int nails = sc.nextInt();
+        String middle = sc.next();
+        sc.close();
+
+        Set<Character> used = new HashSet<>();
+        for (char c : middle.toCharArray()) used.add(c);
+
+        int bestFirst = -1;
+        int bestLast = -1;
+        long bestPerNail = -1;
+        long bestPrice = -1;
+
+        for (int first = 9; first >= 0; first--) {
+            if (used.contains((char)('0' + first))) continue;
+            for (int last = 9; last >= 0; last--) {
+                if (used.contains((char)('0' + last))) continue;
+                if (last == first) continue;
+                String fullStr = String.valueOf(first) + middle + String.valueOf(last);
+                long price = Long.parseLong(fullStr);
+                long per = price / nails;
+                if (per > bestPerNail || (per == bestPerNail && price > bestPrice)) {
+                    bestPerNail = per;
+                    bestPrice = price;
+                    bestFirst = first;
+                    bestLast = last;
+                }
+            }
+        }
+
+        System.out.println(bestFirst + " " + bestLast + " " + bestPerNail);
+    }
+}
