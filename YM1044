@@ -1,0 +1,35 @@
+import java.util.*;
+
+public class Solution {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int start = sc.nextInt();
+        int end = sc.nextInt();
+        sc.close();
+
+        if (start < 2) start = 2;
+
+        boolean[] isPrime = new boolean[end + 1];
+        Arrays.fill(isPrime, true);
+        isPrime[0] = false;
+        isPrime[1] = false;
+
+        for (int i = 2; i * i <= end; i++) {
+            if (isPrime[i]) {
+                for (int j = i * i; j <= end; j += i) {
+                    isPrime[j] = false;
+                }
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = start; i <= end; i++) {
+            if (isPrime[i]) {
+                if (sb.length() > 0) sb.append(" ");
+                sb.append(i);
+            }
+        }
+
+        System.out.println(sb);
+    }
+}
